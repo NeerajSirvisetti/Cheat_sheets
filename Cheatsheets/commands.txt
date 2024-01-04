@@ -1,0 +1,50 @@
+#fetching pods info, secrets, config maps 
+kubectl get pods,secret,cm -n <namespace/environment> | grep <component>
+
+#describing the pods and greping the docker images of the pods
+kubectl describe deploy -n <env/ns> | grep <dockerpath>
+
+#watching the status of pods deployment in real time
+kubectl get pods -n <ns/env> -w  
+
+#fetching specific pod
+kubectl get pods -n prod | grep <filter word> 
+
+#logs checking in pod
+kubectl logs -f <pod_name_ID> <pod_name> -n <env>
+
+#describing ingress
+kubectl describe ingress -n <env>
+
+#replica set deployed pods details
+kubectl get deploy,rs,pod -n <env>
+
+#port forwarding
+kubectl port-forward <pod_name_ID>  <port_name>:<port_name> -n <env>
+
+#
+kubectl describe pod <pod-id> -n <env>
+
+#restarting the deployment
+kubectl rollout restart deploy <service/component>  -n <env>
+
+#Editing the Configmap from cluster
+kubectl edit cm <cm_name> -n <env>
+
+#scaling replicas/no of pods
+kubectl scale --replicas=0 deploy <component> -n <env>
+#getting into the pod
+kubectl exec -it <pod> -c <container> -n <env> -- /bin/bash
+
+#Checking any property in the pod
+echo $<property Name>
+
+#Acl checking connection
+nc -vz domain.vom 443
+
+#Base64 conversion
+base64 project-certificates.jks >> abc.txt
+
+#Getting the secrets to be deployed from its folder into the cluster
+kubectl apply -f . -n <env>
+kubectl apply -f project-cert.yaml -f project-secret.yaml -n <env>

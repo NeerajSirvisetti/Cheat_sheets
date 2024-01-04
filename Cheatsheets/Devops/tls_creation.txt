@@ -1,0 +1,8 @@
+cat <tls_passphrase.txt>  
+openssl rsa -in <tls>.key.pem -out <tls>.key_without_passphrase.pem
+kubectl create secret tls <tls_name_from_ingress> --key <tls>.key_without_passphrase.pem --cert <tls_certificate file>.chain.pem -n <ns>
+
+# deploy ingress
+kubectl apply -f <ingress_file> -n <ns>
+
+kubcetl describe ingress -n <ns>

@@ -1,0 +1,71 @@
+K8’sCommands
+
+
+# Contexts
+kubectx / kubectl config get-contexts
+kubectl config use-context <context>
+
+# Configuring contexts
+#checking and adding profiles here 
+cat ~/.aws/config
+Aws-profile <profile>
+aws eks update-kubeconfig --name <name of the cluster>
+
+
+# Fetching pods info, secrets, config maps 
+kubectl get pods,secret,cm -n <env> | grep <component>
+
+# Getting the secrets to be deployed from its folder into the cluster
+kubectl apply -f . -n <env>
+kubectl apply -f <fileName1> -f <file_name2> -n <env>
+
+# Describing the pods and greping the docker images of the pods
+kubectl describe deploy -n <env> | grep docker.<example>.com
+
+# Watching the status of pods in real time
+kubectl get pods -n <env> -w  (Watch command) 
+
+# Fetching specific pod
+kubectl get pods -n <env> | grep <component>
+
+# logs checking in pod
+kubectl logs -f <pod_name_ID> <container name/component_name> -n <env>
+
+# Describing ingress
+kubectl describe ingress -n <env>
+
+# Replica set deployed pods details
+kubectl get deploy,rs,pod -n <env>
+
+# Port forwarding
+kubectl port-forward <pod_name_ID>  <port_name>:<port_name> -n <env>
+
+# Describing the pods
+kubectl describe pod <pod-id> -n <env>
+
+# Restarting the deployment
+kubectl rollout restart deploy <service/component>  -n <env>
+
+# Undoing the current deployment
+kubectl rollout undo deploy <service/component>  -n <env>
+
+# Editing the Configmap from cluster
+kubectl edit cm <cm_name> -n <env>
+
+# Editing the Deployment from cluster
+kubectl edit deploy <cm_name> -n <env>
+
+# Scaling replicas/no of pods
+kubectl scale --replicas=0 deploy <component> -n <env>
+
+# Getting into the pod
+kubectl exec -it <pod_name>  -c <container_name/component_name> -n <env> -- /bin/bash
+
+# Checking any property in the pod
+echo $<variable_name>
+
+# Acl checking connection
+nc -vz <host> <port>
+
+#Base64 conversion
+base64 example-ca-truststore.jks >> abc.txt

@@ -1,0 +1,24 @@
+# can also use aluminium base image
+FROM docker.example.com/<path>
+
+# The directory containing the built application from rio.
+ARG <APP_DIR>
+
+# Copy app properties,log4j2,logback file.
+ADD example-config/ /usr/app/conf/
+
+# The WORKDIR command sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD
+WORKDIR /usr/app/
+
+# Extract and copy the built app into mentioned location
+# ADD command would result in the contents of the tar archive being unpacked into the container's directory
+ADD $APP_DIR/*/*example-service*.tar /usr/app/
+
+# JVM Arguments
+ENV JVM_ARGS "-Xmx3G"
+
+# Create a symbolic link app.jar to the symbolic link created packaging, which have dynamic names.
+RUN ln -s $(find -name '*.jar' -type l) app.jar
+
+# Below command will execute when container is started
+ENTRYPOINT java $JVM_ARGS -jar /usr/app/app.jar

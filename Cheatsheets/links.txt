@@ -1,0 +1,7 @@
+templates:
+https://html5up.net/
+https://www.mashup-template.com/
+
+
+logo:
+https://hatchful.shopify.com/

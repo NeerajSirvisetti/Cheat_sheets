@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service
+  namespace: <env>
+  labels:
+    app: example-service
+spec:
+  replicas: <n>
+  selector:
+    matchLabels:
+      app: example-service
+  template:
+    metadata:
+      labels:
+        app: example-service
+    spec:
+      containers:
+       - name: <container-name>
+         image: docker.example.com/example/example-service:${trigger['tag']}
+         imagePullPolicy: Always
+         ports:
+           - name: app-port
+             containerPort: <exposed port>
+         # to override docker entrypoint
+         command:
+          -   /bin/sh
+         args:
+          - '-c'
+          - >-
+            java -Xmx12G -Xlog:gc:/ngs/app/log/example-service/example-service-gc.log
+            -XX:+HeapDumpOnOutOfMemoryError
+            -XX:HeapDumpPath=/ngs/app/iosdmp/example-service/
+            -XX:SoftRefLRUPolicyMSPerMB=0
+            -Dlog4j.formatMsgNoLookups=true
+            -Dlog4j2.formatMsgNoLookups=true
+            -Doracle.net.ssl_version=1.2
+            -Djava.io.tmpdir=/usr/app/temp/
+            -DLOG_PATH=/ngs/app/iosdmp/log/example-service/
+            -DAPP_NAME=example-service
+            -Ddevops.framework.processUUID= -jar /usr/app/app.jar
+            --logging.config=/usr/app/conf/log4j2.xml
+            --logging.access.enable=true
+
+         envFrom:
+           - secretRef:
+              name: example-secret
+           - secretRef:
+              name: example-secret
+           - configMapRef:
+              name: global-cm
+           - configMapRef:
+              name: example-cm
+              optional: true
+         
+         startupProbe:
+           httpGet:
+             path: /health
+             port: app-port
+             scheme: HTTPS          
+           periodSeconds: 10
+           timeoutSeconds: 1
+           failureThreshold: 25
+           successThreshold: 1
+         livenessProbe:
+           httpGet:
+             path: /health
+             port: app-port
+             scheme: HTTPS
+           periodSeconds: 5
+           timeoutSeconds: 1
+           failureThreshold: 3
+           successThreshold: 1
+
+         resources:
+              limits:
+                cpu: 2600m
+                memory: 14Gi
+              requests:
+                cpu: 1400m
+                memory: 13Gi
+         volumeMounts:
+            - mountPath: /usr/app/cert/
+              name: example-certstore
+            - mountPath: /ngs/app/log/example/
+              name: app-logs
+            - mountPath: /usr/app/temp/
+              name: tmp-dir
+
+
+      volumes:
+        - name: example-certstore
+          projected:
+            sources:
+            - secret:
+                name: example-certstore
+            - secret:
+                name: example-service-certstore
+
+      restartPolicy: Always
