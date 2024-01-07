@@ -1,96 +1,195 @@
+### **Python Cheat Sheet:**
 
+**1. Basics:**
+   - **Printing:**
+     - Display information to the console.
+     ```python
+     print("Hello, Python!")
+     ```
+   - **Taking Inputs:**
+     - Receive user input.
+     ```python
+     user_input = input("Enter something: ")
+     ```
 
-### **Python Basics:**
-```python
-# Variables and Data Types
-x = 5
-name = "John"
-float_num = 3.14
-boolean_val = True
+**2. Control Flow:**
+   - **For Loops (Various Usages):**
+     - Iterate over a sequence or use `range()` for a numerical loop.
+     ```python
+     for item in iterable:
+         # code block
 
-# Lists
-my_list = [1, 2, 3, "apple", "banana"]
-my_list.append(4)
-element = my_list[2]
+     for i in range(5):
+         # code block
+     ```
 
-# Tuples
-my_tuple = (1, 2, 3)
+**3. String Manipulation:**
+   - **String Formatting:**
+     - Combine variables and strings.
+     ```python
+     name = "John"
+     age = 25
+     formatted_string = f"My name is {name} and I'm {age} years old."
+     ```
+   - **String Methods:**
+     - Perform various operations on strings.
+     ```python
+     my_string = "Hello, Python!"
 
-# Dictionaries
-my_dict = {"key1": "value1", "key2": 42}
-value = my_dict["key1"]
+     # Uppercase and lowercase
+     upper_case = my_string.upper()
+     lower_case = my_string.lower()
 
-# Strings
-string_val = "Hello, World!"
-substring = string_val[7:12]
+     # String length
+     length = len(my_string)
 
-# Input/Output
-user_input = input("Enter something: ")
-print("You entered:", user_input)
-```
+     # String concatenation
+     new_string = my_string + " Welcome!"
 
-### **Control Flow:**
-```python
-# Conditional Statements
-if condition:
-    # code to execute if the condition is True
-elif another_condition:
-    # code to execute if another_condition is True
-else:
-    # code to execute if no conditions are True
+     # String slicing
+     sliced_string = my_string[7:12]
 
-# Loops
-for item in my_list:
-    # code to execute for each item in the list
+     # Check if a substring exists
+     is_present = "Python" in my_string
+     ```
 
-while condition:
-    # code to execute while the condition is True
-```
+**4. List Operations:**
+   - **List Methods:**
+     - Manipulate and modify lists.
+     ```python
+     my_list = [1, 2, 3, 4, 5]
 
-### **Functions:**
-```python
-# Function Definition
-def greet(name):
-    return "Hello, " + name
+     # Append and extend
+     my_list.append(6)
+     my_list.extend([7, 8])
 
-# Function Call
-result = greet("Alice")
-```
+     # Remove and pop
+     my_list.remove(3)
+     popped_item = my_list.pop()
 
-### **File Handling:**
-```python
-# Reading from a file
-with open("filename.txt", "r") as file:
-    content = file.read()
+     # Index and count
+     index_of_2 = my_list.index(2)
+     occurrences_of_5 = my_list.count(5)
 
-# Writing to a file
-with open("output.txt", "w") as file:
-    file.write("Hello, File!")
-```
+     # Sorting
+     my_list.sort()
+     reversed_list = sorted(my_list, reverse=True)
+     ```
 
-### **Classes and Objects:**
-```python
-# Class Definition
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+**5. File Handling:**
+   - **Reading from a File:**
+     ```python
+     with open('file.txt', 'r') as file:
+         content = file.read()
+     ```
+   - **Writing to a File:**
+     ```python
+     with open('new_file.txt', 'w') as file:
+         file.write('Hello, Python!')
+     ```
 
-    def greet(self):
-        return f"Hello, my name is {self.name}."
+**6. Exception Handling:**
+   - **Try-Except Blocks:**
+     ```python
+     try:
+         # code block
+     except SomeError as error:
+         # handle error
+     else:
+         # code block to execute if no exception
+     finally:
+         # code block to execute regardless of exceptions
+     ```
 
-# Object Instantiation
-person1 = Person("Alice", 25)
-```
+**7. Classes and Objects:**
+   - **Class Definition:**
+     ```python
+     class MyClass:
+         def __init__(self, attribute):
+             self.attribute = attribute
 
-### **Exception Handling:**
-```python
-try:
-    # code that might raise an exception
-except SomeException as e:
-    # handle the exception
-else:
-    # code to execute if no exception occurred
-finally:
-    # code that always runs, regardless of exceptions
-```
+         def method(self):
+             # code block
+     ```
+   - **Object Instantiation:**
+     ```python
+     my_object = MyClass("value")
+     ```
+
+**8. Modules and Packages:**
+   - **Creating a Module:**
+     ```python
+     # module.py
+     def my_function():
+         # code block
+     ```
+   - **Importing:**
+     ```python
+     import module
+     from module import my_function
+     ```
+
+**9. Virtual Environments:**
+   - **Creating:**
+     ```bash
+     python -m venv myenv
+     ```
+   - **Activating:**
+     - Activate virtual environment.
+     - Windows: `myenv\Scripts\activate`
+     - macOS/Linux: `source myenv/bin/activate`
+
+**10. Regular Expressions:**
+   - **Pattern Matching:**
+     ```python
+     import re
+     pattern = re.compile(r'\d+')
+     result = pattern.match('123')
+     ```
+
+**11. List Comprehensions:**
+   ```python
+   squares = [x**2 for x in range(10)]
+   ```
+
+**12. Decorators:**
+   ```python
+   def my_decorator(func):
+       def wrapper():
+           print("Before function call.")
+           func()
+           print("After function call.")
+       return wrapper
+
+   @my_decorator
+   def say_hello():
+       print("Hello!")
+   ```
+
+**13. Generators:**
+   ```python
+   def my_generator():
+       for i in range(5):
+           yield i
+   ```
+
+**14. Context Managers:**
+   ```python
+   with open('file.txt', 'r') as file:
+       content = file.read()
+   ```
+
+**15. Threading and Multiprocessing:**
+   - **Threading:**
+     ```python
+     import threading
+     my_thread = threading.Thread(target=my_function)
+     my_thread.start()
+     ```
+   - **Multiprocessing:**
+     ```python
+     import multiprocessing
+     my_process = multiprocessing.Process(target=my_function)
+     my_process.start()
+     ```
+
