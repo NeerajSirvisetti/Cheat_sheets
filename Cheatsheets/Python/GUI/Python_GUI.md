@@ -85,5 +85,3 @@ file_path = filedialog.askopenfilename(title="Select a file", filetypes=[("Text 
 # Save File Dialog
 file_path = filedialog.asksaveasfilename(defaultextension=".txt", title="Save file")
 ```
-
-This is a basic overview, and Tkinter offers more widgets and options for building GUI applications. Feel free to explore the Tkinter documentation for more details: [Tkinter Documentation](https://docs.python.org/3/library/tkinter.html)
