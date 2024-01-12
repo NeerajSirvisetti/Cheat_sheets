@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: example-service-svc
+  namespace: <env>
+  labels:
+      app: example-service
+spec:
+  replicas: <n>
+  selector: 
+  matchLabels:
+     app: example-service
+  template:
+      metadata:
+         labels:
+    app: example-service
+
+  spec:
+     containers:
+     - name: demounit-caching-service
+           image: docker.<example>.com/<path>/example-service:$(trigger['tag'))
+       imagePullPolicy: Always
+           ports:
+             -name: app-port
+              containerPort: <exposed Port No> 
+    # to override docker entrypoint
+       command: 
+     - /bin/sh
+
+       args:
+     - '-c'
+     - >-
+        java -Xmx12g -Xlog:gc:/ngs/app/iosdet/log/example-service/example-service-gc.log
+        -XX:+HeapDumpOnOutOfMemoryError -XX: HeapDumpPath=/ngs/app/iosdet/log/example-service/
+                -XX:SoftRefLRUPolicyRSPerMD-0
+                -XX:+UseParallelGC
+                -XX:+PrintGCDetails
+                -Dlog4j.formatMsgNoLookups=true 
+        -Dlog4j2.formatMsgoLookupse=true
+        -Doracle.net.ssversion=1.2
+        -Djava.io.tmpdir/usr/app/temp/ 
+        -DLOG_PATH=/ngs/app/losdat/log/example-service/
+        -DAPP_NAME=example-service
+            -Ddevops.framework.processUUID= -jar /usr/app/app.jar 
+        --logging.config=/usr/app/conf/log4j2.xml
+        --logging.access.enable=true
+
+       envFrom:
+        - secretRef:
+             name: global-secret
+                - secretRef:
+         name:example-service-secret
+                - configMapRef:
+                     name: global-cm
+                - configMapRef:
+                     name: example-service-cm
+         optional:true
+
+           startupProbe:
+
+httpGet:
+
+path: /health
+
+ports app-port
+
+schemes HTTPS
+
+periodSeconds 10
+
+timeout Seconds &
+
+failureThresholds 25

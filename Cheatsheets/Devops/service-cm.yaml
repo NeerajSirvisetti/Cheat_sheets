@@ -1,0 +1,10 @@
+---
+apiVersions: v1
+kind: ConfigMap
+metadata:
+  name: <service>-cm
+  namespaces: <env>
+data:
+  <property1>: "Property_Value"
+  <secret_property>: "${SECRET_PROPERTY_NAME}"
+  <Global_Property>: "${GLOBAL_PROPERTY_NAME}"

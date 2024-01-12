@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: <env>
+  annotations:
+  service.beta.kubernetes.io/aws-load-balancer-type:nlb
+  service.beta.kubernetes.io/aws-load-balancer-internal:0.0.0.0/0
+  labels:
+  app: example-service
+  name: example-service-svc
+spec:
+  ports:
+   - protocol: TCP
+     port: 443
+     targetPort: <port exposed>
+  selector:
+     app: example-service
